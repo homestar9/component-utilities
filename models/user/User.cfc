@@ -7,7 +7,7 @@ component
 	property name="lastName" required="true" getter="true";
 	property name="position" required="false" getter="true";
 	property name="quotes" type="array" required="false" getter="true";
-	property name="secret" required="false" getter="false";
+	property name="secret" required="false" getter="false"; // Private!
 
 	
 	/**

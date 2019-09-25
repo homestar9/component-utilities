@@ -6,7 +6,7 @@ component
 	property name="name" required="true" getter="true";
 	property name="serialNumber" required="true" getter="true";
 	property name="captain" required="true" getter="true";
-	property name="shieldFrequency" required="true" getter="false";
+	property name="shieldFrequency" required="true" getter="false"; // Private!
 
 	
 	/**
