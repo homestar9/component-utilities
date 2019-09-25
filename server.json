@@ -1,0 +1,11 @@
+{
+    "web":{
+        "rewrites":{
+            "enable":"true"
+        }
+    },
+    "app":{
+        "cfengine":"lucee@5.x"
+    },
+    "name":"component-utilities"
+}
