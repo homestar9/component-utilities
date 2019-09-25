@@ -2,95 +2,27 @@ component
     hint = "I represent bunch of useful component utilities"
 {
     
+    /**
+     * Constructor
+     */
     function init() {
         return this;
     }    
     
     
-    /*
-        GET COMPONENT PROPERTIES
-        Returns the properties of the passed component "this" scope.
-        note: components that are extended will have their parent's metadata in a key called "extends"
-        this method will recursively look through all parents to retrieve all properties
-        if any child overwrites a parent property, this method will respect that.
-    */
-    array function getPropertyList( required Component component ) {
 
-        var deepProperties = getDeepProperties( getMetaData( arguments.component ), {} );
-        
-        var propertyList = [];
-        
-        deepProperties.each( function( key, value ) {
-            propertyList.append( value );
-        } );
-
-        return propertyList;
-
-    }
+    /***************************************************************************************************************
+    *                                               PUBLIC METHODS
+    ***************************************************************************************************************/
 
     /**
-     *  Get Deep Properties
-     *  This recursive function accepts component metadata and returns a structure containing
-     *  all of the properties. 
+     * Get Dto
+     * Converts a component's properties into a data transformation object (DTO)
+     * which is essentially just a basic structure of data. Useful when sending data from layer to layer.
+     *
+     * @component 
      */
-    private struct function getDeepProperties( required struct metaData, required struct properties ) {
-
-        if ( 
-            structKeyExists( metaData, "extends" ) && 
-            structKeyExists( metaData.extends, "properties" )
-        ) {
-            structAppend( arguments.properties, getDeepProperties( metaData.extends, arguments.properties ) );
-        }
-
-        if ( structKeyExists( metaData, "properties" ) ) {
-
-            for ( var newProperty in metaData.properties ) {
-                arguments.properties[ newProperty.name ] = newProperty;
-            }
-
-        }
-
-        return arguments.properties;
-
-    }
-
-    /*
-        GET COMPONENT Functions
-        Returns the functions of the passed component "this" scope
-    */
-    private array function getComponentFunctions() {
-
-        return getMetadata( this ).functions;
-
-    }
-
-
-    private function getPublicPropertyList( required Component component ) {
-
-        var source = arguments.component;
-
-        var publicPropertyList = getPropertyList( source ).filter( function( property ) {
-            
-            // if the source component has a public getter method for this property, treat it as public and allow it
-            return ( structKeyExists( source, "get#property.name#" ) );
-
-        } );
-
-        return publicPropertyList;
-
-    }
-
-
-    /*
-        GET DTO
-        Converts a component's properties into a data transformation object (DTO)
-        which is essentially just a basic structure of data. Useful when sending data
-        from layer to layer.
-        todo: we need recursion here to go deeper into the dto and convert queries as needed.
-        perhaps with an option in the arguments
-        old method: deserializeJSON( serializeJSON( dto, "struct") );
-    */
-    public struct function getDto( required Component component ) {
+    struct function getDto( required Component component ) {
 
         var dto = {}; // our default dto is an empty struct
         var source = arguments.component; // we need a reference because of the member function below
@@ -130,9 +62,96 @@ component
         return dto;
 
     }
+    
+    
+    /**
+     * Get Property List
+     * Returns a list of properties for a given component. 
+     * Note: it includes any inherited properties as well and respects properties that are overriden
+     *
+     * @component 
+     */
+    array function getPropertyList( required Component component ) {
+
+        var deepProperties = getDeepProperties( getMetaData( arguments.component ), {} );
+        
+        var propertyList = [];
+        
+        deepProperties.each( function( key, value ) {
+            propertyList.append( value );
+        } );
+
+        return propertyList;
+
+    }
 
 
-    // todo: case for structs containing objects
+
+    /**
+     * Get Public Property List
+     * Returns only public properties for a component
+     * 
+     * @component
+     */
+    function getPublicPropertyList( required Component component ) {
+
+        var source = arguments.component;
+
+        var publicPropertyList = getPropertyList( source ).filter( function( property ) {
+            
+            sysout( property );
+            
+            // if the source component has a public getter method for this property, treat it as public and allow it
+            return ( structKeyExists( source, "get#property.name#" ) );
+
+        } );
+
+        return publicPropertyList;
+
+    }
+    
+
+
+    /***************************************************************************************************************
+    *                                               PRIVATE METHODS
+    ***************************************************************************************************************/
+
+    /**
+     * Get Deep Properties
+     * This recursive function accepts component metadata and returns a structure containing all properties
+     *
+     * @metaData 
+     * @properties 
+     */
+    private struct function getDeepProperties( required struct metaData, required struct properties ) {
+
+        if ( 
+            structKeyExists( metaData, "extends" ) && 
+            structKeyExists( metaData.extends, "properties" )
+        ) {
+            structAppend( arguments.properties, getDeepProperties( metaData.extends, arguments.properties ) );
+        }
+
+        if ( structKeyExists( metaData, "properties" ) ) {
+
+            for ( var newProperty in metaData.properties ) {
+                arguments.properties[ newProperty.name ] = newProperty;
+            }
+
+        }
+
+        return arguments.properties;
+
+    }
+
+    /**
+     * Convert DTO Value
+     * Comverts complex DTO values into simple values like structs
+     * If a DTO contains a nested object, it will attempt to convert it to a simple struct or it will try
+     * to execute getDto() recursively if the method exists.
+     *
+     * @value 
+     */
     private function convertDtoValue( required any value ) {
         
         // is this property value an object? and does it have a getDto method?
@@ -164,6 +183,13 @@ component
 
     }
 
+    /**
+     * Hashify
+     * Hashes various objects
+     * todo: consider using this to hash complex objects or creating dto hashes.
+     *
+     * @value 
+     */
     private string function hashify( required any value ) {
         
         //return an empty string for null
