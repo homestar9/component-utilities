@@ -1,6 +1,6 @@
 # component-utilities
 
-The purpose of this project is to demonstrate a simple component utility class method which assists in extracting an object's public properties into a data transformation object (DTO). DTOs are simplified representations of complex objects which are ideal for passing data around an application (like your persistence layer) or to external APIs.  [You can learn more about DTOs here](https://en.wikipedia.org/wiki/Data_transfer_object).
+The purpose of this project is to demonstrate a simple component utility class method which extracts an object's public properties into a data transformation object (DTO). DTOs are simplified representations of complex objects which are ideal for passing around in an application, like a persistence layer, or to external APIs.  [You can learn more about DTOs here](https://en.wikipedia.org/wiki/Data_transfer_object).
 
 Todo: Add additional utility methods for added functionality. 
 
