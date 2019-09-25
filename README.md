@@ -19,3 +19,7 @@ You should see two object dumps. The first is a simple representation of an enti
 ## What Is Going on Behind the Scenes?
 
 When you call `getDto()` in an entity class, it calls the corresponding `getDto()` method in the `ComponentUtilities` dependency with a reference to the entity as an argument.  The component utlity then examines the public properties of the entity and attempts to run getter methods to retrieve the data.  If the data returned is another entity or complex object, it attempts to run `getDto()` again recursively.
+
+## Do You Have Any Ideas?
+
+Do you know a way to make this utility more useful?  Are there other utility methods you can think of that would be beificial to add?  Please feel free to submit pull requests or comment with your ideas. I would love to hear what you think!
