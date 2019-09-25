@@ -10,6 +10,11 @@ Since you should never instantiate a base class on its own, there are two entity
 
 When you call `getDto()` on an entity, it should return a CFML structure containing all of the public properties of that object for easy transport.
 
+The dump should look like this:
+
+![example dump](https://i.imgur.com/y5WBWjA.png "example dump")
+
+
 ## How Can I Run This?
 
 [Install Commandbox](https://www.ortussolutions.com/products/commandbox).  Download the repo into a subfolder on your computer.  Open CommandBox and navigate to the subfolder.  Type `server start` and Commandbox should automagically download and start up a CFML server for you.  By default it should open a browser and load `index.cfm` in the web root.
