@@ -1,6 +1,9 @@
 component {
 
-	property name="dateCreated" type="date";
+    property name="dateCreated" type="date";
+    
+    // If you are using wirebox
+    // property name="componentUtilities" inject="ComponentUtilities";
 
 
 	/**
@@ -37,7 +40,7 @@ component {
 
 	/**
 	* getDto
-	* This exposes one of the utility classes which will allos us to get the DTO from the entity
+	* This exposes one of the utility class methods which allows us to get the DTO from the entity
 	*/
 	function getDto() {
 		return variables.componentUtils.getDto( this );

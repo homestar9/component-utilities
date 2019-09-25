@@ -15,6 +15,7 @@ captain = new models.user.user(
 writeOutput( "Captain DTO" );
 writeDump( captain.getDto() );
 
+// create an instance of a vessel entity (note it uses our user entity as well)
 vessel = new models.vessel.vessel(
 	name = "USS Enterprise",
 	serialNumber = "NCC-1701-D",
